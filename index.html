@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>bwin slot game</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	#mContainer, #sContainer{position: relative;}
+</style>
+
+ <script language="javascript">
+
+        /*Update clientlibUrl var for server url*/
+        var clientlibUrl = "";
+        var commonAssetsLoaded = false;
+        var mobileLoaded = false; //These are set to true in apps when they have loaded
+        var deskTopLoaded = false;
+
+        ///*********************Vars for desktop text*********************///
+        ////Winning text, has to be done in chunks to accomodate different sized text
+        var gameSettings = {};
+            gameSettings.clickThroughURL = "";
+            gameSettings.badLuck = 'Bad Luck.';
+            gameSettings.tryAgainTxt1 = "Try again";
+            gameSettings.tryAgainTxt2 = "One last try";
+            gameSettings.clickSpin = "Click 'Spin'";
+            gameSettings.toPlay = "to play";
+            gameSettings.youWon = "You’ve won!";
+            gameSettings.winLine1 = "Sign up now to receive";
+            gameSettings.winLine2 = "50 FREE SPINS";
+            gameSettings.winLine3 = "+ UP TO £400";
+            gameSettings.winLine4 = "DEPOSIT BONUS";
+
+     var interval = setInterval(function() {
+            if (document.readyState === 'complete') {
+                clearInterval( interval );
+                console.log( document.readyState );
+                politeInit();
+            }
+        }, 100);
+
+        /*****politeInit loads once page is ready***************/
+        function politeInit() {
+
+            function on_resize(c, t) {
+                onresize = function() {
+                    clearTimeout(t);
+                    t = setTimeout(c, 100)
+                };
+                return c;
+            };
+
+            var checkLoad = function() {
+                var body = document.body,
+                    html = document.documentElement;
+                var width = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth);
+
+                console.log(width);
+                if (width < 500) {
+                    TweenMax.set(mContainer, { visibility: "visible", display: "block" });
+                    TweenMax.set(sContainer, { visibility: "hidden", display: "none" });
+
+                    if (!mobileLoaded) {
+                        mobile();
+                    }
+                }else if (width > 500) {
+                    TweenMax.set(mContainer, { visibility: "hidden", display: "none" });
+                    TweenMax.set(sContainer, { visibility: "visible", display: "block" })
+                    if (!deskTopLoaded) {
+                        deskTop();
+                    }
+                }
+            }
+            on_resize(function() {
+                checkLoad();
+            });
+
+
+            //array of all the external js files we want to politely load//
+            var arrExtJs = ["https://www.foxycasino.com/etc/designs/clientlibs/libraries/pixi-3.0.x.js", "https://www.foxycasino.com/etc/designs/clientlibs/libraries/tweenmax-1.18.x.js", clientlibUrl + "js/main.js", clientlibUrl + "js/mobileSlot.js"];
+            var loadJsIndex = 0;
+            /**
+             * Function loads in an external JS file
+             */
+            function loadExtJavaScript() {
+                // Load in external Javascript file
+                var extJavaScript = document.createElement("script");
+                extJavaScript.setAttribute("type", "text/javascript");
+                extJavaScript.setAttribute("src", arrExtJs[loadJsIndex]);
+                extJavaScript.onload = function() {
+                    jsLoadedHandler();
+                }
+                document.getElementsByTagName("head")[0].appendChild(extJavaScript);
+            }
+            loadExtJavaScript();
+            /**
+             * Fired when an External JS files has been loaded
+             */
+            function jsLoadedHandler() {
+                console.log("JS LOADED (" + arrExtJs[loadJsIndex] + ")");
+                loadJsIndex++;
+                if (loadJsIndex < arrExtJs.length) {
+                    loadExtJavaScript(); // load next JS file
+                } else {
+                    checkLoad();
+                }
+            }
+        }
+    </script>
+    <script>
+    </script>
+
+
+
+</head>
+
+<body>
+
+
+
+
+                <!---->
+                <div id="game_container">
+                    <div class="" id="mContainer">
+
+                        <canvas id="mobile_game" width="450" height="450"></canvas>
+
+                    </div>
+                    <div class="" id="sContainer">
+
+                        <canvas id="game" class="" width="900" height="500"></canvas>
+
+                    </div>
+
+                </div>
+                <!---->
+
+
+
+
+</body>
+
+</html>
